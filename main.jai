@@ -77,7 +77,7 @@ KEY_V       :  : 86;
 SEC_TO_MS :: 1000.0;
 UPDATE_THERSHOLD_MS :: 16.67;
 
-// OP CODES
+// Bunch of constants for opcodes here
 CLS :: 0x00E0;
 RET :: 0x00EE;
 JP_ADDR :: 0x1_FFF;
@@ -89,6 +89,17 @@ LD_VX_BYTE :: 0x6_F_EE; // Set Vx = EE;
 ADD_VX_BYTE :: 0x7_F_EE; // Add immediate value EE to Vx
 LD_VX_VY :: 0x8_F_E_0; // Set Vx = Vy
 OR_VX_VY :: 0x8_F_E_1; // Set Vx = Vx | Vy
+AND_VX_VY :: 0x8_F_E_2; // Set Vx = Vx & Vy
+XOR_VX_VY :: 0x8_F_E_3; // XOR
+ADD_VX_VY :: 0x8_F_E_4; // Add vY into vX, is result > 255, set 0xF to 1 (carry)
+SUB_VX_VY :: 0x8_F_E_5; // Sub vY from vX, is vX > vY, set 0xF to 1 (borrow)
+SHR_VX    :: 0x8_F_0_6; // Set vX = vX SHR 1
+SUBN_VX_VY :: 0x8_F_F_7;
+SHL_VX    :: 0x8_F_0_8;
+SNE_VX_VY :: 0x9_F_F_0; // Skip next instruction if vX != vY
+LD_I_ADDR :: 0xA_FFF; // Set I = nnn
+JP_V0_ADDR :: 0xB_FFF; // Set PC = NNN + V[0]
+RND_VX_BYTE :: 0xC_F_FF; // Set vX = random_byte & KK
 
 CHIP8 :: struct {
   opcode: u16;
@@ -108,15 +119,11 @@ CHIP8 :: struct {
   key: [16]u32;
 }
 
-random_byte :: () -> u8 {
-  return cast(u8)(random_get() % 255);
-}
-
 chip8_init :: (chip8: *CHIP8) {
   chip8.PC = PROGRAM_START;
 
   // Copy font into program memory
-  for i : 0..FONT.count {
+  for i : 0..FONT.count-1 {
     chip8.memory[FONT_START + i] = FONT[i];
   }
 }
@@ -196,10 +203,10 @@ chip8_update :: (chip8: *CHIP8) {
   chip8.delay_timer = max(chip8.delay_timer - 1, 0);
   chip8.sound_timer = max(chip8.sound_timer - 1, 0);
 
-  // execute instruction 
-  if chip8.PC == {
+  // // execute instruction 
+  // if chip8.PC == {
 
-  }
+  // }
 }
 
 main :: () {
