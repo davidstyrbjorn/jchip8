@@ -100,6 +100,7 @@ SNE_VX_VY :: 0x9_F_F_0; // Skip next instruction if vX != vY
 LD_I_ADDR :: 0xA_FFF; // Set I = nnn
 JP_V0_ADDR :: 0xB_FFF; // Set PC = NNN + V[0]
 RND_VX_BYTE :: 0xC_F_FF; // Set vX = random_byte & KK
+DRW_VX_VY_NIBBLE :: 0xD_F_F_F; // Display n-byte sprite starting at memory location I at position vX, vY, vF = collision
 
 CHIP8 :: struct {
   opcode: u16;

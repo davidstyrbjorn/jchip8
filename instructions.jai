@@ -157,3 +157,21 @@ chip8_rnd_vx_byte :: inline (chip8: *CHIP8, opcode: u16) {
   kk := cast(u8)(opcode & 0x00FF);
   chip8.V[vx] = random_byte() & kk;
 }
+
+chip8_drw_vx_vy_nibble :: inline (chip8: *CHIP8, opcode: u16) {
+  vx := (opcode & 0x0F00) >> 8; 
+  vy := (opcode & 0x00F0) >> 4;
+  height := opcode & 0x000f;
+  
+  pos_x := chip8.V[vx] % DP_WIDTH;
+  pos_y := chip8.V[vy] % DP_HEIGHT;
+
+  chip8.V[0xF] = 0; // collision = false
+
+  for row : 0..height-1 {
+    sprite_byte := chip8.memory[chip8.I + row];
+    for col : 0..7 {
+      
+    }
+  }
+}

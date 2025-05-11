@@ -8,6 +8,9 @@
 WHITE :: Vector4.{1, 1, 1, 1};
 BLACK :: Vector4.{0, 0, 0, 1};
 
+DP_WIDTH  :: 64;
+DP_HEIGHT :: 32;
+
 V2 :: struct {
   x, y: int;
 }
